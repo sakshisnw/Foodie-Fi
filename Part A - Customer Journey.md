@@ -5,7 +5,7 @@
 description about each customer’s onboarding journey. Try to keep it as short as possible - you may also
 want to run some sort of join to make your explanations a bit easier!*
 
-### Steps to answering the question:
+### Approach:
 
 - The sample customer_id given in the sample subscription table are 1, 2, 11, 13, 15, 16, 18, 19. 
 
@@ -68,6 +68,3 @@ ORDER BY s.customer_id, s.start_date;
 * Customer 18 starts with a free trial plan on 2020-07-06 and when the trial ends, upgrades to pro monthly plan on 2020-07-13.
 
 * Customer 19 starts with a free trial plan on 2020-06-22, upgrades to pro monthly on 2020-06-29, then upgrades to pro annual plan on 2020-08-29.
-
-```
-
