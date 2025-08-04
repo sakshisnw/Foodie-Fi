@@ -53,18 +53,28 @@ ORDER BY s.customer_id, s.start_date;
 
 ### Brief description on the customers journey based on the results from the above query:
 
-* Customer 1 starts with a free trial plan on 2020-08-01 and when the trial ends, upgrades to basic monthly plan on 2020-08-08.
+* Customer 1:
+Started with a trial on Dec 1, 2020, and upgraded to a pro annual plan on Dec 8, 2020.
 
-* Customer 2 starts with a free trial plan on 2020-09-20 and when the trial ends, upgrades to pro annual plan on 2020-09-27.
+Customer 2:
+Started with a trial on Dec 20, 2020, and downgraded to a basic monthly plan on Dec 27, 2020.
 
-* Customer 11 starts with free trial plan on 2020-11-19 and churns at the end of the free trial plan on 2020-11-26.
+Customer 11:
+Started with a trial on Dec 19, 2020, and cancelled the service on Dec 26, 2020, before the trial ended.
 
-* Customer 13 starts with free trial plan on 2020-12-15 and when the trial ends, subscribes to a basic monthly plan on 2020-12-22, then upgrades to a pro monthly plan on 2021-03-29.
+Customer 13:
+Started with a trial on Dec 15, 2020, upgraded to basic monthly on Dec 22, 2020, and later upgraded to pro monthly on Mar 29, 2021.
 
-* Customer 15 starts with a free trial plan on 2020-03-17 and when the trial ends, upgrades to the pro monthly plan on 2020-03-24, then churns one month later on 2020-04-29.
+Customer 15:
+Started with a trial on Dec 17, 2020, upgraded to pro monthly on Dec 24, 2020, and later cancelled on Jan 20, 2021.
 
-* Customer 16 starts with a free trial plan on 2020-05-31 and when the trial ends, subscribes to a basic monthly plan on 2020-06-07, then upgrades to a pro annual plan on 2020-10-21.
+Customer 16:
+Started with a trial on Dec 6, 2020, and upgraded directly to pro annual on Dec 13, 2020.
 
-* Customer 18 starts with a free trial plan on 2020-07-06 and when the trial ends, upgrades to pro monthly plan on 2020-07-13.
+Customer 18:
+Started with a trial on Dec 27, 2020, and continued with pro monthly from Jan 3, 2021.
 
-* Customer 19 starts with a free trial plan on 2020-06-22, upgrades to pro monthly on 2020-06-29, then upgrades to pro annual plan on 2020-08-29.
+Customer 19:
+Started with a trial on Dec 5, 2020, upgraded to basic monthly on Dec 12, 2020, and later churned on Jan 9, 2021.
+
+
