@@ -5,13 +5,18 @@
 description about each customer’s onboarding journey. Try to keep it as short as possible - you may also
 want to run some sort of join to make your explanations a bit easier!*
 
-### Approach:
+### Approach: Tracking Customer Journeys
+1. Selected 8 Sample Customers
+Focused on IDs: 1, 2, 11, 13, 15, 16, 18, 19.
 
-- The sample customer_id given in the sample subscription table are 1, 2, 11, 13, 15, 16, 18, 19. 
+2. Joined subscriptions + plans
+Pulled customer_id, plan_name, start_date.
 
-- Create a base table with the following columns: customer_id, plan_id, plan_name, start_date.
+3. Sorted by Customer & Date
+To follow each customer’s journey in order.
 
-- Order by Customer_id
+4. Summarized Journeys
+Tracked plan changes: trial → upgrades → churn.
 	
 ### Solution
 
