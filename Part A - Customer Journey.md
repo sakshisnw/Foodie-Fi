@@ -1,5 +1,4 @@
-# <p align="center" style="margin-top: 0px;"> Data With Danny
-# <p align="center" style="margin-top: 0px;"> 🥑 Case Study - Foodie-Fi 🥑
+# <p align="center" style="margin-top: 0px;"> 🥑 Data With Danny Case Study - Foodie-Fi 🥑
 ## <p align="center"> Part A. Customer Journey
 
 *Based off the 8 sample customers provided in the sample from the subscriptions table, write a brief
