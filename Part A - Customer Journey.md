@@ -81,8 +81,3 @@ Started with a trial on Dec 27, 2020, and continued with pro monthly from Jan 3,
 
 * Customer 19:
 Started with a trial on Dec 5, 2020, upgraded to basic monthly on Dec 12, 2020, and later churned on Jan 9, 2021.
-<<<<<<< HEAD
-=======
-
->>>>>>> 99d54bb32a35fc868f68a13e526004576386485e
-
