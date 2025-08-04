@@ -1,4 +1,3 @@
-````markdown
 # <p align="center" style="margin-top: 0px;"> 🥑 Case Study #3 - Foodie-Fi 🥑
 ## <p align="center"> A. Customer Journey
 
