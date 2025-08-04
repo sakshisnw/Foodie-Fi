@@ -1,103 +1,120 @@
 # <p align="center" style="margin-top: 0px;"> 🥑 Data With Danny Case Study - Foodie-Fi 🥑
 ## <p align="center"> Part B. Data Analysis Questions
-
 ---
 
 ### 1. How many customers has Foodie‑Fi ever had?
 
-**Steps:**  
-- Count only unique `customer_id` values so we don’t double-count the same customer.
+**Approach:**
+- Each customer has a `customer_id`.
+- We count only **unique** `customer_id` values to avoid duplicates.
 
 ```sql
 SELECT COUNT(DISTINCT customer_id) AS customer_count
-FROM subscriptions;
+FROM foodie_fi.subscriptions;
 ````
 
 **Output:**
 
-| total\_customers |
-| ---------------- |
-| 1000             |
+| customer\_count |
+| --------------- |
+| 1000            |
 
-**Interpretation:**
+**🟢 Interpretation:**
 Foodie‑Fi has served **1,000 unique customers** to date.
 
 ---
 
 ### 2. Monthly distribution of trial plan starts
 
-**Steps:**
+**Approach:**
 
-* Extract the month number from each `start_date`
-* Only count those rows where `plan_name = 'trial'`
-* Group by month to see how many started the trial each month
+* Join `subscriptions` and `plans` to get `plan_name`.
+* Filter only `trial` plans.
+* Use `DATE_TRUNC('month', start_date)` to group by month.
+* Count how many started each month.
 
 ```sql
-SELECT month(start_date) AS month,
-       COUNT(*) AS total_trials
+SELECT 
+  DATE_TRUNC('month', start_date) AS month_start,
+  COUNT(*) AS trial_starts
 FROM subscriptions AS s
-JOIN plans AS p ON s.plan_id = p.plan_id
+JOIN plans AS p 
+  ON s.plan_id = p.plan_id
 WHERE p.plan_name = 'trial'
-GROUP BY month(start_date)
-ORDER BY total_trials DESC;
+GROUP BY DATE_TRUNC('month', start_date)
+ORDER BY month_start;
 ```
 
 **Output:**
 
-| month | total\_trials |
-| ----- | ------------- |
-| 3     | 94            |
-| 7     | 89            |
-| ...   | ...           |
-| 2     | 68            |
+| month\_start | trial\_starts |
+| ------------ | ------------- |
+| 2020-01-01   | 88            |
+| 2020-02-01   | 68            |
+| 2020-03-01   | 94            |
+| 2020-04-01   | 81            |
+| 2020-05-01   | 88            |
+| 2020-06-01   | 79            |
+| 2020-07-01   | 89            |
+| 2020-08-01   | 88            |
+| 2020-09-01   | 87            |
+| 2020-10-01   | 79            |
+| 2020-11-01   | 75            |
+| 2020-12-01   | 84            |
 
-**Interpretation:**
-March saw the **highest trial starts (94)** and February the **lowest (68)**.
+**🟢 Interpretation:**
+**March** saw the **highest trial starts (94)** and **February the lowest (68)**.
 
 ---
 
 ### 3. Plan starts after 2020 by plan name
 
-**Steps:**
+**Approach:**
 
-* Filter subscriptions with `start_date >= '2021-01-01'`
-* Count how many times each plan was chosen after 2020
+* Join `subscriptions` and `plans` to get `plan_name`.
+* Filter records with `start_date` after 2020.
+* Count how many times each plan was chosen.
 
 ```sql
-SELECT p.plan_name,
-       p.plan_id,
-       COUNT(*) AS event_2021
-FROM plans AS p
-JOIN subscriptions AS s ON p.plan_id = s.plan_id
-WHERE s.start_date >= '2021-01-01'
-GROUP BY p.plan_id, p.plan_name
-ORDER BY p.plan_id;
+SELECT p.plan_name, 
+       COUNT(*) AS plan_count
+FROM subscriptions s
+JOIN plans p 
+  ON s.plan_id = p.plan_id
+WHERE s.start_date > '2020-12-31'
+GROUP BY p.plan_name
+ORDER BY plan_count DESC;
 ```
 
 **Output:**
 
-| plan\_name    | plan\_id | event\_2021 |
-| ------------- | -------- | ----------- |
-| basic monthly | 1        | 8           |
-| pro monthly   | 2        | 60          |
-| pro annual    | 3        | 63          |
-| churn         | 4        | 71          |
+| plan\_name    | plan\_count |
+| ------------- | ----------- |
+| churn         | 71          |
+| pro annual    | 63          |
+| pro monthly   | 60          |
+| basic monthly | 8           |
 
-**Interpretation:**
-No trial plans started in 2021—most activity was among **paid plans or churn**.
+**🟢 Interpretation:**
+**Pro Annual** and **Pro Monthly** were the most chosen plans after 2020.
+**Basic Monthly** was the least popular among upgraders.
 
 ---
 
 ### 4. How many customers have churned (and percentage)?
 
-**Steps:**
+**Approach:**
 
-* Count rows where `plan_id = 4` (churn)
-* Compute the percentage versus total unique customers
+* Filter by `plan_id = 4` (churn).
+* Count customers and calculate the percentage of total.
 
 ```sql
-SELECT COUNT(*) AS customer_count,
-       ROUND((COUNT(*) * 100.0) / (SELECT COUNT(DISTINCT customer_id) FROM subscriptions), 1) AS churn_percentage
+SELECT 
+    COUNT(*) AS customer_count,
+    ROUND(
+        (COUNT(*) * 100.0) / (SELECT COUNT(DISTINCT customer_id) FROM subscriptions), 
+        1
+    ) AS churn_percentage
 FROM subscriptions
 WHERE plan_id = 4;
 ```
@@ -108,17 +125,17 @@ WHERE plan_id = 4;
 | --------------- | ----------------- |
 | 307             | 30.7              |
 
-**Interpretation:**
-**307 customers (30.7%)** left the platform during the analysis period.
+**🟢 Interpretation:**
+A total of **307 customers (30.7%)** have **churned**.
 
 ---
 
 ### 5. Customers who churned immediately after trial
 
-**Steps:**
+**Approach:**
 
-* Identify customers whose first plan is trial (`plan_id=0`)
-* And their only other plan is churn (`plan_id=4`)
+* Identify customers who had only 2 plans: **Trial → Churn**.
+* Use `MIN(plan_id)` and `MAX(plan_id)` logic.
 
 ```sql
 SELECT COUNT(*) AS churn_after_trial
@@ -139,36 +156,39 @@ WHERE total_plans = 2 AND first_plan = 0 AND last_plan = 4;
 | ------------------- |
 | 92                  |
 
-**Interpretation:**
-**92 users** tried the trial and left immediately, with no paid plan.
+**🟢 Interpretation:**
+**92 customers** churned **right after the trial** without upgrading to a paid plan.
 
 ---
 
 ### 6. Next plan after trial (counts and percentages)
 
-**Steps:**
+**Approach:**
 
-* Rank each customer's plans chronologically
-* Select their second plan only
-* Count how many customers chose each next plan
+* Rank plans per customer using `ROW_NUMBER()`.
+* Select only the second plan.
+* Count plan frequencies and calculate percentages.
 
 ```sql
 WITH ranked_plans AS (
-  SELECT customer_id,
-         plan_id,
-         ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY start_date) AS plan_order
-  FROM subscriptions
+    SELECT customer_id, 
+           plan_id, 
+           start_date,
+           ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY start_date) AS plan_order
+    FROM foodie_fi.subscriptions
 ),
 second_plan AS (
-  SELECT customer_id, plan_id
-  FROM ranked_plans
-  WHERE plan_order = 2
+    SELECT customer_id, plan_id
+    FROM ranked_plans
+    WHERE plan_order = 2
 )
-SELECT p.plan_name,
-       COUNT(*) AS customer_count,
-       ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM second_plan), 1) AS percentage
+
+SELECT 
+    p.plan_name, 
+    COUNT(*) AS customer_count,
+    ROUND(COUNT(*) * 100.0 / (SELECT COUNT(*) FROM second_plan), 1) AS percentage
 FROM second_plan sp
-JOIN plans p ON sp.plan_id = p.plan_id
+JOIN foodie_fi.plans p ON sp.plan_id = p.plan_id
 GROUP BY p.plan_name
 ORDER BY customer_count DESC;
 ```
@@ -182,28 +202,28 @@ ORDER BY customer_count DESC;
 | churn         | 92              | 9.2        |
 | pro annual    | 37              | 3.7        |
 
-**Interpretation:**
-After the free trial:
+**🟢 Interpretation:**
+After the trial:
 
-* **54.6%** upgraded to Basic Monthly
-* **32.5%** chose Pro Monthly
-* **9.2%** churned immediately
-* **3.7%** upgraded to Pro Annual
+* **54.6%** chose **Basic Monthly**
+* **32.5%** went for **Pro Monthly**
+* **9.2%** churned
+* Only **3.7%** opted for **Pro Annual**
 
 ---
 
 ### 7. Plan distribution on 2020-12-31
 
-**Steps:**
+**Approach:**
 
-* For each customer, find their latest plan as of end of 2020
-* Count how many are on each plan that day
+* For each customer, find their **latest plan on or before** 2020-12-31 using `ROW_NUMBER()`.
+* Group by `plan_id`.
 
 ```sql
 WITH ranked_plans AS (
-  SELECT customer_id, plan_id,
+  SELECT customer_id, plan_id, 
          ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY start_date DESC) AS rn
-  FROM subscriptions
+  FROM foodie_fi.subscriptions
   WHERE start_date <= '2020-12-31'
 ),
 latest_plan AS (
@@ -211,11 +231,12 @@ latest_plan AS (
   FROM ranked_plans
   WHERE rn = 1
 )
+
 SELECT p.plan_name,
        COUNT(lp.customer_id) AS customer_count,
        ROUND(100.0 * COUNT(lp.customer_id) / SUM(COUNT(lp.customer_id)) OVER (), 1) AS percentage
 FROM latest_plan lp
-JOIN plans p ON lp.plan_id = p.plan_id
+JOIN foodie_fi.plans p ON lp.plan_id = p.plan_id
 GROUP BY p.plan_name
 ORDER BY customer_count DESC;
 ```
@@ -230,20 +251,20 @@ ORDER BY customer_count DESC;
 | pro annual    | 195             | 19.5       |
 | trial         | 19              | 1.9        |
 
-**Interpretation:**
-As of Dec 31, 2020:
+**🟢 Interpretation:**
+As of **December 31, 2020**:
 
-* **Pro Monthly** leads (32.6%)
-* 23.6% had already churned
-* Others split between Basic, Pro Annual, and Trial
+* **Pro Monthly** was the top plan (**32.6%**)
+* **23.6% had already churned**
+* Other customers were split between **Basic**, **Annual**, and a few on **Trial**
 
 ---
 
 ### 8. Customers who upgraded to Pro Annual in 2020
 
-**Steps:**
+**Approach:**
 
-* Count unique customers with `plan_id = 3` and `start_date` in 2020
+* Filter `plan_id = 3` and `start_date` within 2020.
 
 ```sql
 SELECT COUNT(DISTINCT customer_id) AS upgraded_to_annual
@@ -257,20 +278,21 @@ WHERE plan_id = 3 AND start_date BETWEEN '2020-01-01' AND '2020-12-31';
 | -------------------- |
 | 195                  |
 
-**Interpretation:**
-**195 customers** upgraded to Pro Annual in 2020.
+**🟢 Interpretation:**
+**195 customers** upgraded to **Pro Annual** in 2020.
 
 ---
 
 ### 9. Average days to upgrade from trial to annual
 
-**Steps:**
+**Approach:**
 
-* Subtract trial start date from annual plan start date per customer
-* Compute average days across all end-to-end transitions
+* Join trial and annual plans per customer.
+* Subtract `start_date` values and take the average.
 
 ```sql
-SELECT ROUND(AVG(annual.start_date - trial.start_date)) AS avg_days_to_annual
+SELECT 
+    ROUND(AVG(annual.start_date - trial.start_date)) AS avg_days_to_annual
 FROM subscriptions AS trial
 JOIN subscriptions AS annual 
   ON trial.customer_id = annual.customer_id
@@ -283,81 +305,98 @@ WHERE trial.plan_id = 0 AND annual.plan_id = 3;
 | --------------------- |
 | 105                   |
 
-**Interpretation:**
-On average, it takes **105 days** to move from trial to Pro Annual.
+**🟢 Interpretation:**
+On average, customers took **105 days** to upgrade from **Trial → Pro Annual**.
 
 ---
 
-### 🔟 Breakdown of upgrade time in 30-day buckets
+### 10. Breakdown of upgrade time in 30-day buckets
 
-**Steps:**
+**Approach:**
 
-* Calculate difference between trial and annual plan in days
-* Group those customers into time range buckets (0–30, 31–60, etc.)
+* Calculate `days_to_annual` for each customer.
+* Bucket into 30-day intervals.
+* Group and aggregate.
 
 ```sql
 SELECT 
   CASE 
     WHEN days_to_annual BETWEEN 0 AND 30 THEN '0-30 days'
     WHEN days_to_annual BETWEEN 31 AND 60 THEN '31-60 days'
-    … 
+    WHEN days_to_annual BETWEEN 61 AND 90 THEN '61-90 days'
+    WHEN days_to_annual BETWEEN 91 AND 120 THEN '91-120 days'
+    WHEN days_to_annual BETWEEN 121 AND 150 THEN '121-150 days'
+    WHEN days_to_annual BETWEEN 151 AND 180 THEN '151-180 days'
     ELSE '>180 days'
   END AS days_group,
   COUNT(*) AS num_customers,
   ROUND(AVG(days_to_annual)) AS avg_days_to_upgrade
 FROM (
-  SELECT t.customer_id,
-         pa.start_date - t.start_date AS days_to_annual
-  FROM subscriptions t
-  JOIN subscriptions pa ON t.customer_id = pa.customer_id
-  WHERE t.plan_id = 0 AND pa.plan_id = 3
-    AND pa.start_date BETWEEN '2020-01-01' AND '2020-12-31'
+  SELECT
+    t.customer_id,
+    (pa.start_date - t.start_date) AS days_to_annual
+  FROM
+    foodie_fi.subscriptions t
+    JOIN foodie_fi.subscriptions pa
+      ON t.customer_id = pa.customer_id
+  WHERE
+    t.plan_id = 0          -- trial
+    AND pa.plan_id = 3     -- pro annual
+    AND pa.start_date >= '2020-01-01'
+    AND pa.start_date < '2021-01-01'
 ) sub
 GROUP BY days_group
-ORDER BY MIN(days_to_annual);
-```
-
-**Output (example):**
-
-| days\_group | num\_customers | avg\_days\_to\_upgrade |
-| ----------- | -------------- | ---------------------- |
-| 0–30        | 48             | 9                      |
-| 31–60       | 25             | 41                     |
-| …           | …              | …                      |
-
-**Interpretation:**
-Most customers upgrade within the **first 30 days**, with fewer upgrading after 180 days.
-
----
-
-### 1️⃣1️⃣ Downgrades from Pro Monthly to Basic Monthly in 2020
-
-**Steps:**
-
-* Check if customer had `plan_id=2` then `plan_id=1` (Pro → Basic) within 2020
-
-```sql
-WITH next_plan_cte AS (
-  SELECT customer_id,
-         plan_id,
-         LEAD(plan_id) OVER (PARTITION BY customer_id ORDER BY start_date) AS next_plan
-  FROM subscriptions
-)
-SELECT COUNT(*) AS downgrades
-FROM next_plan_cte
-WHERE start_date <= '2020-12-31'
-  AND plan_id = 2 AND next_plan = 1;
+ORDER BY 
+  MIN(days_to_annual);
 ```
 
 **Output:**
 
-| downgrades |
-| ---------- |
-| 0          |
+| days\_group  | num\_customers | avg\_days\_to\_upgrade |
+| ------------ | -------------- | ---------------------- |
+| 0–30 days    | 48             | 10                     |
+| 31–60 days   | 22             | 43                     |
+| 61–90 days   | 30             | 72                     |
+| 91–120 days  | 24             | 101                    |
+| 121–150 days | 28             | 134                    |
+| 151–180 days | 22             | 164                    |
+| >180 days    | 21             | 201                    |
 
-**Interpretation:**
-No customers downgraded from Pro Monthly to Basic Monthly during 2020.
+**🟢 Interpretation:**
+Most users (**48**) upgraded **within 30 days**, while **others took much longer**, up to **201 days** on average.
 
 ---
 
-Let me know if you’d like a downloadable `.md` version of this or to visualize any of the results!
+### 11. Downgrades from Pro Monthly to Basic Monthly in 2020
+
+**Approach:**
+
+* Check if a customer moved from `plan_id = 2` to `plan_id = 1` in 2020.
+
+```sql
+SELECT
+  COUNT(DISTINCT s1.customer_id) AS customers_downgraded
+FROM
+  foodie_fi.subscriptions s1
+JOIN
+  foodie_fi.subscriptions s2
+    ON s1.customer_id = s2.customer_id
+    AND s2.start_date > s1.start_date
+WHERE
+  s1.plan_id = 2          -- pro monthly
+  AND s2.plan_id = 1      -- basic monthly
+  AND s2.start_date >= '2020-01-01'
+  AND s2.start_date < '2021-01-01';
+```
+
+**Output:**
+
+| customers\_downgraded |
+| --------------------- |
+| 0                     |
+
+**🟢 Interpretation:**
+There were **no downgrades** from **Pro Monthly → Basic Monthly** in 2020.
+
+---
+
