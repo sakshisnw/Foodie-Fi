@@ -1,5 +1,5 @@
 # <p align="center" style="margin-top: 0px;"> 🥑 Data With Danny Case Study - Foodie-Fi 🥑
-## <p align="center"> Part C.Challenge Payment Question
+## <p align="center"> Part C. Challenge Payment Question
 ---
 
 ### Challenge: Create a 2020 Payments Table
