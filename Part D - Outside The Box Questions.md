@@ -7,9 +7,7 @@
 To measure Foodie-Fi’s growth, I’d look at both the change in active subscribers and recurring revenue over time.  
 A simple yet effective formula is:
 
-\[
-\text{Growth Rate (\%)} = \frac{\text{Current Subscribers} - \text{Past Subscribers}}{\text{Past Subscribers}} \times 100
-\]
+Growth Rate (%) = ((Current Subscribers − Past Subscribers) / Past Subscribers) × 100
 
 Tracking subscriber or revenue growth each month, quarter, and year provides a clear view of momentum and business health.
 
