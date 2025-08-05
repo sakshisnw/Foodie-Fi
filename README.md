@@ -1,9 +1,12 @@
-# 🥑 Case Study – Foodie-Fi
+# <p align="center" style="margin-top: 0px;"> 🥑 Case Study – Foodie-Fi
 
 *A solution project inspired by Danny Ma’s [8 Week SQL Challenge](https://8weeksqlchallenge.com/case-study-3/). See credits at the end.*
 
 ---
-<img width="500" height="500" alt="f1" src="https://github.com/user-attachments/assets/08975ab0-2175-4c89-aa3d-36b4d6f9bbd6" />
+<div align="center">
+  <img src="https://github.com/user-attachments/assets/08975ab0-2175-4c89-aa3d-36b4d6f9bbd6" alt="f1" width="700" height="700"/>
+</div>
+
 
 
 ## 🧾 Table of Contents
