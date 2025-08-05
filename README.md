@@ -69,7 +69,7 @@ There are two core tables:
 
 ### Part A: Customer Journey
 
-Track the detailed journeys for 8 sample customers. See [(./Part A - Customer Journey.md)](https://github.com/sakshisnw/Foodie-Fi/blob/9bc75fe7864470bdce8011a149babfff31993075/Part%20A%20-%20Customer%20Journey.md) for approach, SQL, output, and a brief story for each customer.
+Track the detailed journeys for 8 sample customers. See [./Part A - Customer Journey.md](https://github.com/sakshisnw/Foodie-Fi/blob/9bc75fe7864470bdce8011a149babfff31993075/Part%20A%20-%20Customer%20Journey.md) for approach, SQL, output, and a brief story for each customer.
 
 ---
 
@@ -89,7 +89,7 @@ Solve real business questions like:
 - Output table  
 - Simple, bullet-point business interpretation
 
-See [Part-B-Data-Analysis.md](./Part-B-Data-Analysis.md).
+See [./Part B - Data Analysis.md](https://github.com/sakshisnw/Foodie-Fi/blob/a68bfcc7b9aadfe8417e0c6226fb1fce67916f04/Part%20B%20-%20Data%20Analysis.md).
 
 ---
 
@@ -105,7 +105,7 @@ Generate a full payment calendar for 2020:
 - Example output table
 - Layperson-friendly explanation of each step
 
-See [Part-C-Challenge-Payment-Question.md](./Part-C-Challenge-Payment-Question.md)
+See [Part C - Challenge Payment Question.md](https://github.com/sakshisnw/Foodie-Fi/blob/a68bfcc7b9aadfe8417e0c6226fb1fce67916f04/Part%20C%20-%20Challenge%20Payment%20Question.md)
 
 ---
 
@@ -119,7 +119,7 @@ Open-ended questions with business and product thinking:
 - Churn reduction levers (plus how to test them)
 
 Accessible, interview-ready answers.  
-See [Part-D-Outside-The-Box-Questions.md](./Part-D-Outside-The-Box-Questions.md)
+See [Part D - Outside The Box Questions.md](https://github.com/sakshisnw/Foodie-Fi/blob/a68bfcc7b9aadfe8417e0c6226fb1fce67916f04/Part%20D%20-%20Outside%20The%20Box%20Questions.md)
 
 ---
 
