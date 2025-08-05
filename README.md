@@ -69,7 +69,7 @@ There are two core tables:
 
 ### Part A: Customer Journey
 
-Track the detailed journeys for 8 sample customers. See [./Part A - Customer Journey.md](https://github.com/sakshisnw/Foodie-Fi/blob/9bc75fe7864470bdce8011a149babfff31993075/Part%20A%20-%20Customer%20Journey.md) for approach, SQL, output, and a brief story for each customer.
+Track the detailed journeys for 8 sample customers. See [Part A - Customer Journey.md](https://github.com/sakshisnw/Foodie-Fi/blob/9bc75fe7864470bdce8011a149babfff31993075/Part%20A%20-%20Customer%20Journey.md) for approach, SQL, output, and a brief story for each customer.
 
 ---
 
@@ -89,7 +89,7 @@ Solve real business questions like:
 - Output table  
 - Simple, bullet-point business interpretation
 
-See [./Part B - Data Analysis.md](https://github.com/sakshisnw/Foodie-Fi/blob/a68bfcc7b9aadfe8417e0c6226fb1fce67916f04/Part%20B%20-%20Data%20Analysis.md).
+See [Part B - Data Analysis.md](https://github.com/sakshisnw/Foodie-Fi/blob/a68bfcc7b9aadfe8417e0c6226fb1fce67916f04/Part%20B%20-%20Data%20Analysis.md).
 
 ---
 
