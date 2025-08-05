@@ -1,4 +1,4 @@
-# <p align="center" style="margin-top: 0px;"> 🥑 Case Study – Foodie-Fi
+# <p align="center" style="margin-top: 0px;"> 🥑 Case Study – Foodie-Fi 🥑
 
 *A solution project inspired by Danny Ma’s [8 Week SQL Challenge](https://8weeksqlchallenge.com/case-study-3/). See credits at the end.*
 
